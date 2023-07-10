@@ -1,0 +1,14 @@
+diffusers
+transformers
+accelerate
+protobuf==3.20.*
+datasets
+bitsandbytes
+torch
+wandb==0.15.0
+opencv-python
+pygame
+xformers
+fire
+numpy
+pyautogui

@@ -1,0 +1,19 @@
+accelerate launch train_controlnet.py \
+--pretrained_model_name_or_path="stabilityai/stable-diffusion-2-1-base" \
+--output_dir="output_dir" \
+--controlnet_model_name_or_path "../../../model" \
+--dataset_name="mattlc/deepgui" \
+--conditioning_image_column=conditioning_image \
+--image_column=file_name \
+--caption_column="caption" \
+--resolution=512 \
+--learning_rate=1e-5 \
+--num_train_epochs=100 \
+--tracker_project_name="controlnet" \
+--checkpointing_steps=1000 \
+--train_batch_size=2 \
+--gradient_checkpointing \
+--validation_steps=50 \
+--report_to wandb \
+--validation_image "../../../conditioning_image.png" \
+--validation_prompt "13,17"
