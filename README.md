@@ -1,7 +1,7 @@
 # Deep GUI
 
-<div class="image-container" style="flex: 1; text-align: center; margin-top: 20px">
-    <img src="monitor_creature.png" style="max-width: 40%;">
+<div class="image-container" style="flex: 1; text-align: center">
+    <img src="deep-gui-creature.png" width="200" height="200">
 </div>
 
 ## Dependencies
