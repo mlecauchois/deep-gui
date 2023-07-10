@@ -1,7 +1,7 @@
 # Deep GUI
 
-<div class="image-container" style="flex: 1; text-align: center; margin-top: 20px">
-    <img src="monitor_creature.png" style="max-width: 40%;">
+<div class="image-container" style="flex: 1; text-align: center">
+    <img src="deep-gui-creature.png" width="200" height="200">
 </div>
 
 ## Dependencies
@@ -65,7 +65,7 @@ python server.py \
 
 On your local machine, run:
 ```bash
-python client.py --server_ip SERVER_IP --server_port SERVER_PORT
+python client.py --server_ip SERVER_IP --server_port SERVER_PORT --output_folder OUTPUT_FOLDER
 ```
 
 If you know how to make this closer to real-time, you are welcome to contribute!
