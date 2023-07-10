@@ -65,7 +65,7 @@ python server.py \
 
 On your local machine, run:
 ```bash
-python client.py --server_ip SERVER_IP --server_port SERVER_PORT
+python client.py --server_ip SERVER_IP --server_port SERVER_PORT --output_folder OUTPUT_FOLDER
 ```
 
 If you know how to make this closer to real-time, you are welcome to contribute!
