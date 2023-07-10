@@ -41,7 +41,7 @@ wandb login
 
 ## Training
 
-Download the [data](https://huggingface.co/datasets/mattlc/deepgui) from the HuggingFace Hub.
+Download the [data](https://huggingface.co/datasets/mattlc/deepgui/tree/main) from the HuggingFace Hub.
 
 Run the training script:
 ```bash
