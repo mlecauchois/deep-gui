@@ -4,6 +4,8 @@
     <img src="deep-gui-creature.png" width="200" height="200">
 </div>
 
+Blogpost: https://mlecauchois.github.io/posts/deep-gui/
+
 ## Dependencies
 
 ```bash
