@@ -4,7 +4,7 @@ import concurrent.futures
 import fire
 import cv2
 import numpy as np
-from diffusers import StableDiffusionControlNetPipeline, ControlNetModel, UniPCMultistepScheduler
+from diffusers import StableDiffusionControlNetPipeline, ControlNetModel, UniPCMultistepScheduler, LCMScheduler
 from diffusers.utils import load_image
 import torch
 
@@ -15,7 +15,10 @@ def main(server_port, base_model_path, controlnet_path, control_image_path, lcm_
     pipe = StableDiffusionControlNetPipeline.from_pretrained(
         base_model_path, controlnet=controlnet, torch_dtype=torch.float16
     )
-    pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config)
+    if lcm_model_path is not None:
+        pipe.scheduler = LCMScheduler.from_config(pipe.scheduler.config)
+    else:
+        pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config)
     pipe = pipe.to("cuda")
     if lcm_model_path is not None:
         pipe.load_lora_weights(lcm_model_path, adapter_name="lcm")
