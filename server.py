@@ -4,7 +4,7 @@ import concurrent.futures
 import fire
 import cv2
 import numpy as np
-from diffusers import StableDiffusionControlNetPipeline, ControlNetModel, UniPCMultistepScheduler, LCMScheduler
+from diffusers import StableDiffusionControlNetImg2ImgPipeline, ControlNetModel, UniPCMultistepScheduler, LCMScheduler
 from diffusers.utils import load_image
 import torch
 
@@ -12,7 +12,7 @@ import torch
 def main(server_port, base_model_path, controlnet_path, control_image_path, lcm_model_path=None):
 
     controlnet = ControlNetModel.from_pretrained(controlnet_path, torch_dtype=torch.float16)
-    pipe = StableDiffusionControlNetPipeline.from_pretrained(
+    pipe = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
         base_model_path, controlnet=controlnet, torch_dtype=torch.float16
     )
     if lcm_model_path is not None:
