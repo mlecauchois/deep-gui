@@ -9,7 +9,7 @@ from diffusers.utils import load_image
 import torch
 
 
-def main(server_port, base_model_path, controlnet_path, control_image_path):
+def main(server_port, base_model_path, controlnet_path, control_image_path, lcm_model_path=None):
 
     controlnet = ControlNetModel.from_pretrained(controlnet_path, torch_dtype=torch.float16)
     pipe = StableDiffusionControlNetPipeline.from_pretrained(
@@ -17,6 +17,8 @@ def main(server_port, base_model_path, controlnet_path, control_image_path):
     )
     pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config)
     pipe = pipe.to("cuda")
+    if lcm_model_path is not None:
+        pipe.load_lora_weights(lcm_model_path, adapter_name="lcm")
     pipe.enable_xformers_memory_efficient_attention()
     control_image = load_image(control_image_path)
     generator = torch.manual_seed(0)
