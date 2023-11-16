@@ -10,7 +10,7 @@ import cv2
 import numpy as np
 
 
-def main(server_ip, server_port, output_folder=None):
+def main(server_ip, server_port, output_folder=None, refresh_time=0.1):
 
     if output_folder is not None and not os.path.exists(output_folder):
         os.makedirs(output_folder)
@@ -69,11 +69,11 @@ def main(server_ip, server_port, output_folder=None):
                 #date = time.strftime("%Y%m%d-%H%M%S")
                 #filename = f"{output_folder}/{date}.png"
                 #cv2.imwrite(filename, image)
-                image = cv2.resize(image, (3000, 3000))
+                #image = cv2.resize(image, (300, 300))
                 cv2.imshow('window', image)
                 cv2.waitKey(10)
 
-            time.sleep(1)
+            time.sleep(refresh_time)
 
 if __name__ == "__main__":
     fire.Fire(main)

@@ -7,9 +7,13 @@ import numpy as np
 from diffusers import StableDiffusionControlNetImg2ImgPipeline, ControlNetModel, UniPCMultistepScheduler, LCMScheduler
 from diffusers.utils import load_image
 import torch
+import time
 
 
-def main(server_port, base_model_path, controlnet_path, control_image_path, lcm_model_path=None):
+def main(server_port, base_model_path, controlnet_path, control_image_path, lcm_model_path=None, steps=2):
+
+    if steps == 1:
+        raise ValueError("Steps must be greater than 1")
 
     controlnet = ControlNetModel.from_pretrained(controlnet_path, torch_dtype=torch.float16)
     pipe = StableDiffusionControlNetImg2ImgPipeline.from_pretrained(
@@ -28,10 +32,11 @@ def main(server_port, base_model_path, controlnet_path, control_image_path, lcm_
 
 
     def generate_image(prompt, steps=3):
-        print(type(control_image))
+        start = time.time()
         image = pipe(
             prompt, num_inference_steps=steps, generator=generator, control_image=control_image, image=control_image
         ).images[0]
+        print(f"Time taken to generate: {time.time() - start}")
         return image
 
 
@@ -55,26 +60,25 @@ def main(server_port, base_model_path, controlnet_path, control_image_path, lcm_
                 break
 
             try:
-                coords = data.decode().strip().split('\n')
+                coord = data.decode().strip().split('\n')[-1]
 
-                for coord in coords:
-                    x, y = coord.split(',')
+                x, y = coord.split(',')
 
-                    # Generate image in another thread and wait for it to complete
-                    print(f"{x},{y}")
-                    future = executor.submit(generate_image, f"{x},{y}", 1)
-                    frame = future.result()
+                # Generate image in another thread and wait for it to complete
+                print(f"{x},{y}")
+                future = executor.submit(generate_image, f"{x},{y}", steps=steps)
+                frame = future.result()
 
-                    # Convert to cv2
-                    frame = cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR)
+                # Convert to cv2
+                frame = cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR)
 
-                    data = convert_image_to_jpeg(frame)
+                data = convert_image_to_jpeg(frame)
 
-                    # Send message length first
-                    message_size = struct.pack("L", len(data))
+                # Send message length first
+                message_size = struct.pack("L", len(data))
 
-                    # Then data
-                    conn.sendall(message_size + data)
+                # Then data
+                conn.sendall(message_size + data)
             except Exception as e:
                 print(e)
         conn.close()
