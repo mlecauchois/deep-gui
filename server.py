@@ -30,7 +30,7 @@ def main(server_port, base_model_path, controlnet_path, control_image_path, lcm_
     def generate_image(prompt, steps=3):
         print(type(control_image))
         image = pipe(
-            prompt, num_inference_steps=steps, generator=generator, control_image=control_image
+            prompt, num_inference_steps=steps, generator=generator, control_image=control_image, image=control_image
         ).images[0]
         return image
 
@@ -62,7 +62,7 @@ def main(server_port, base_model_path, controlnet_path, control_image_path, lcm_
 
                     # Generate image in another thread and wait for it to complete
                     print(f"{x},{y}")
-                    future = executor.submit(generate_image, f"{x},{y}", 3)
+                    future = executor.submit(generate_image, f"{x},{y}", 1)
                     frame = future.result()
 
                     # Convert to cv2
