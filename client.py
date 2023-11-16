@@ -10,9 +10,9 @@ import cv2
 import numpy as np
 
 
-def main(server_ip, server_port, output_folder):
+def main(server_ip, server_port, output_folder=None):
 
-    if not os.path.exists(output_folder):
+    if output_folder is not None and not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
     def convert_jpeg_to_image(jpeg_data):

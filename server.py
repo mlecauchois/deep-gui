@@ -28,6 +28,7 @@ def main(server_port, base_model_path, controlnet_path, control_image_path, lcm_
 
 
     def generate_image(prompt, steps=3):
+        print(type(control_image))
         image = pipe(
             prompt, num_inference_steps=steps, generator=generator, image=control_image
         ).images[0]
