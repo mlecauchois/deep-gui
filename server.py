@@ -28,7 +28,6 @@ def main(server_port, base_model_path, controlnet_path, control_image_path, lcm_
 
 
     def generate_image(prompt, steps=3):
-        print(type(control_image))
         image = pipe(
             prompt, num_inference_steps=steps, generator=generator, image=control_image
         ).images[0]
@@ -66,6 +65,7 @@ def main(server_port, base_model_path, controlnet_path, control_image_path, lcm_
                     frame = future.result()
 
                     # Convert to cv2
+                    print("here")
                     frame = cv2.cvtColor(np.array(frame), cv2.COLOR_RGB2BGR)
 
                     data = convert_image_to_jpeg(frame)
