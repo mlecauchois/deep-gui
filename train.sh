@@ -1,7 +1,6 @@
 accelerate launch train_controlnet.py \
 --pretrained_model_name_or_path="stabilityai/stable-diffusion-2-1-base" \
 --output_dir="output_dir" \
---controlnet_model_name_or_path "../../../model" \
 --dataset_name="mattlc/deepgui" \
 --conditioning_image_column=conditioning_image \
 --image_column=file_name \
@@ -16,4 +15,5 @@ accelerate launch train_controlnet.py \
 --validation_steps=50 \
 --report_to wandb \
 --validation_image "../../../conditioning_image.png" \
---validation_prompt "13,17"
+--validation_prompt "13,17" \
+--focus_mse_weight 1.0
