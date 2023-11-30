@@ -1067,7 +1067,7 @@ def main(args):
                 focus_mask = focus_mask.max(dim=1)[0]  # Take the max over the channels
                 channel = model_pred.shape[1]
                 focus_mask = focus_mask.unsqueeze(1).repeat(1, channel, 1, 1)
-                focus_mask = F.interpolate(focus_mask, size=model_pred.shape[-2:], mode="nearest")
+                focus_mask = F.interpolate(focus_mask, size=model_pred.shape[-2:], mode="nearest").to(dtype=weight_dtype)
                 loss = F.mse_loss(
                     model_pred.float(), target.float(), reduction="none"
                 )
