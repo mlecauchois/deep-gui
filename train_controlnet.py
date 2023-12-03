@@ -123,10 +123,9 @@ def log_validation(vae, text_encoder, tokenizer, unet, controlnet, args, acceler
         images = []
 
         for _ in range(args.num_validation_images):
-            with torch.autocast("cuda"):
-                image = pipeline(
-                    validation_prompt, validation_image, num_inference_steps=20, generator=generator
-                ).images[0]
+            image = pipeline(
+                validation_prompt, validation_image, num_inference_steps=20, generator=generator
+            ).images[0]
 
             images.append(image)
 
